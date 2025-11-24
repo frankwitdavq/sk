@@ -3,25 +3,46 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-const authRoutes = require('./routes/auth');
-const membersRoutes = require('./routes/members');
-const adminRoutes = require('./routes/admin');
-const annRoutes = require('./routes/announcements');
+const authRoutes = require('./auth');              // 🔥 FIXED PATH
+const membersRoutes = require('./members');        // 🔥 FIXED PATH
+const adminRoutes = require('./admin');            // 🔥 FIXED PATH
+const annRoutes = require('./announcements');      // 🔥 FIXED PATH
 
+
+const path = require('path');
 const app = express();
-app.use(cors());
+
+
+// CORS – allow frontend (GitHub Pages)
+app.use(cors({
+  origin: '*',
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ROUTES (correct)
 app.use('/api/auth', authRoutes);
 app.use('/api/members', membersRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/announcements', annRoutes);
 
-// also added as requested (duplicate is safe)
-app.use('/api/admin', require('./routes/admin'));
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, time: new Date() });
+});
 
-app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date() }));
 
+// Root route: serve index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Server listen
 const port = process.env.PORT || 4000;
-app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+app.listen(port, () => console.log(`Server running on port ${port}`));

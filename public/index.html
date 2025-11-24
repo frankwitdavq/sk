@@ -272,12 +272,12 @@
   <button class="privacy-btn" onclick="showPrivacy()">Privacy Notice</button>
 
   <script>
-    const API_BASE = "http://localhost:4000/api";
+    const API_BASE = "https://sk-h7kl.onrender.com/api";
 
     /* LOAD ANNOUNCEMENTS (from admin) */
     async function loadAnnouncements() {
       try {
-        const res = await fetch("http://localhost:4000/api/admin/announcement/all");
+        const res = await fetch("https://sk-h7kl.onrender.com/api/admin/announcement/all");
         const data = await res.json();
 
         const box = document.getElementById("announcementContent");
