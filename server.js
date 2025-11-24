@@ -3,10 +3,10 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-const authRoutes = require('./auth');              // 🔥 FIXED PATH
-const membersRoutes = require('./members');        // 🔥 FIXED PATH
-const adminRoutes = require('./admin');            // 🔥 FIXED PATH
-const annRoutes = require('./announcements');      // 🔥 FIXED PATH
+const authRoutes = require('./routes/auth');
+const membersRoutes = require('./routes/members');
+const adminRoutes = require('./routes/admin');
+const annRoutes = require('./routes/announcements');
 
 
 const path = require('path');
